@@ -9,13 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
 
     [SerializeField]
-    float moveSpeed;
+    private float moveSpeed;
     [SerializeField]
-    float jumpForce;
+    private float jumpForce;
     [SerializeField]
-    float fallMultiplier;
+    private float fallMultiplier;
     [SerializeField]
-    float lowJumpMultiplier;
+    private float lowJumpMultiplier;
 
     // Start is called before the first frame update
     void Start()
