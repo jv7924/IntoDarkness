@@ -12,6 +12,7 @@ public class MovePlatform : MonoBehaviour
     private float speed;
     private Vector2 startPosition;
     private Vector2 endPosition;
+    private bool test = false;
 
     void Start()
     {
@@ -22,11 +23,11 @@ public class MovePlatform : MonoBehaviour
 
     void Update()
     {
-        if ((Vector2)transform.position == endPosition)
+        if ((Vector2)transform.position == endPosition && test)
         {
             StartCoroutine(Vector2LerpCoroutine(gameObject, startPosition, speed));
         }
-        else if ((Vector2)transform.position == startPosition)
+        else if ((Vector2)transform.position == startPosition && test)
         {
             StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
         }
@@ -53,5 +54,16 @@ public class MovePlatform : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         collision.gameObject.transform.parent = null;
+    }
+
+    public void Activate()
+    {
+        Test();
+    }
+
+    public bool Test()
+    {
+        test = true;
+        return test;
     }
 }
