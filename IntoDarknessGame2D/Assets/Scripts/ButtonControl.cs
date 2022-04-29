@@ -40,7 +40,7 @@ public class ButtonControl : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            inRange = true;
+            inRange = false;
         }
     }
 }

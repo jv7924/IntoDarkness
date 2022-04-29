@@ -12,24 +12,26 @@ public class MovePlatform : MonoBehaviour
     private float speed;
     private Vector2 startPosition;
     private Vector2 endPosition;
-    private bool test = false;
+    private bool buttonClick = false;
 
     void Start()
     {
         startPosition = platformPathStart.transform.position;
         endPosition = platformPathEnd.transform.position;
-        StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
+        //StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
     }
 
     void Update()
     {
-        if ((Vector2)transform.position == endPosition && test)
+        if ((Vector2)transform.position == endPosition && buttonClick)
         {
             StartCoroutine(Vector2LerpCoroutine(gameObject, startPosition, speed));
+            Debug.Log("Hi");
         }
-        else if ((Vector2)transform.position == startPosition && test)
+        else if ((Vector2)transform.position == startPosition && buttonClick)
         {
-            StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
+            StartCoroutine( Vector2LerpCoroutine(gameObject, endPosition, speed));
+            Debug.Log("Hey");
         }
     }
 
@@ -56,14 +58,17 @@ public class MovePlatform : MonoBehaviour
         collision.gameObject.transform.parent = null;
     }
 
-    public void Activate()
+    public bool ButtonClicked()
     {
-        Test();
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            buttonClick = true;
+        }
+        return buttonClick;
     }
 
-    public bool Test()
+    public void Activate()
     {
-        test = true;
-        return test;
+        ButtonClicked();
     }
 }
