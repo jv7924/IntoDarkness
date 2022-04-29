@@ -55,7 +55,7 @@ public class GameStateManager : MonoBehaviour
     public static void GameOver()
     {
         state = GAMESTATE.GAMEOVER;
-        SceneManager.LoadScene(instance.titleSceneName);
+        SceneManager.LoadScene(instance.levels[0]);
     }
 
     public static void TogglePause()
