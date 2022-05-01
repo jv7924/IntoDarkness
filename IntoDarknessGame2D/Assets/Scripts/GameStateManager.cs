@@ -12,7 +12,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField]
     private string titleSceneName;
 
-    enum GAMESTATE
+    public enum GAMESTATE
     {
         MENU,
         PLAYING,
@@ -20,7 +20,7 @@ public class GameStateManager : MonoBehaviour
         GAMEOVER
     }
 
-    private static GAMESTATE state;
+    public static GAMESTATE state;
     private void Awake()
     {
         if (instance == null)
