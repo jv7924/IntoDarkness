@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    private GameObject pausePanel;
-    public void ResumeGame()
-    {
-        Debug.Log("AS");
-        GameStateManager.TogglePause();
-    }
-
-    public void QuitGame()
-    {
-        Debug.Log("Quit");
-        Application.Quit();
-    }
+    public GameObject pauseMenuUI;
 
     void Start()
     {
-        pausePanel = gameObject.transform.GetChild(0).gameObject;
+        pauseMenuUI = gameObject.transform.GetChild(0).gameObject;
         DontDestroyOnLoad(gameObject);
     }
 
-    void Update(){
-        if (GameStateManager.state == GameStateManager.GAMESTATE.PAUSE){
-            pausePanel.SetActive(true);
-        }else{
-            pausePanel.SetActive(false);
+    void Update()
+    {
+        if (GameStateManager.state == GameStateManager.GAMESTATE.PAUSE)
+        {
+            PauseGame();
         }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenuUI.SetActive(false);
+    }
+
+    public void PauseGame()
+    {
+        pauseMenuUI.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1;
+        GameStateManager.NewGame();
     }
 }
