@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Bottomless Pit
+  - Monster
   layers:
   - Default
   - TransparentFX

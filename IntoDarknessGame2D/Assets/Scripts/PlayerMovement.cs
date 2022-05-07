@@ -5,13 +5,17 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
+    private CapsuleCollider2D playerCc;
     private bool isOnGround = true;
     private float horizontalInput;
+    public static bool playerHide = false;
 
     [SerializeField]
     private float moveSpeed;
+    private float oldMoveSpeed;
     [SerializeField]
     private float jumpForce;
+    private float oldJumpForce;
     [SerializeField]
     private float fallMultiplier;
     [SerializeField]
@@ -22,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // Gets the rigidbody component of player
         playerRb = GetComponent<Rigidbody2D>();
+        playerCc = GetComponent<CapsuleCollider2D>();
+        oldMoveSpeed = moveSpeed;
+        oldJumpForce = jumpForce;
     }
 
     // Update is called once per frame
@@ -83,6 +90,23 @@ public class PlayerMovement : MonoBehaviour
         {
             GameStateManager.GameOver();
             Debug.Log("Game Over");
+        }
+    }
+
+    public void ToggleHide(){
+        if (playerHide == false && isOnGround){
+            playerHide = true;
+            playerRb.velocity = new Vector2(0, 0);
+            playerRb.gravityScale = 0;
+            playerCc.isTrigger = true;
+            moveSpeed = 0;
+            jumpForce = 0;
+        }else{
+            playerHide = false;
+            playerRb.gravityScale = 1;
+            playerCc.isTrigger = false;
+            moveSpeed = oldMoveSpeed;
+            jumpForce = oldJumpForce;
         }
     }
 }
