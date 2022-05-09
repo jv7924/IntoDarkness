@@ -91,6 +91,12 @@ public class PlayerMovement : MonoBehaviour
             GameStateManager.GameOver();
             Debug.Log("Game Over");
         }
+
+        if (collision.gameObject.CompareTag("Door"))
+        {
+            GameStateManager.NewGame();
+            Debug.Log("You win!");
+        }
     }
 
     public void ToggleHide(){
