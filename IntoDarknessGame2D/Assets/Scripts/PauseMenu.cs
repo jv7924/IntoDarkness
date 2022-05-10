@@ -40,4 +40,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         GameStateManager.NewGame();
     }
+
+    public void ExitToMain()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1;
+        GameStateManager.MainMenu();
+    }
 }

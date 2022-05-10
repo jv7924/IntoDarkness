@@ -96,6 +96,12 @@ public class PlayerMovement : MonoBehaviour
         {
             isOnGround = true;
         }
+
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            GameStateManager.GameOver();
+            Debug.Log("Dead");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

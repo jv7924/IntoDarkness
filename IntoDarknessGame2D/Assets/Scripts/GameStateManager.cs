@@ -11,7 +11,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField]
     private List<string> levels = new List<string>();
     [SerializeField]
-    private string titleSceneName;
+    public string titleSceneName;
 
     public enum GAMESTATE
     {
@@ -73,5 +73,11 @@ public class GameStateManager : MonoBehaviour
             state = GAMESTATE.PLAYING;
             Time.timeScale = 1;
         }
+    }
+
+    public static void MainMenu()
+    {
+        state = GAMESTATE.MENU;
+        SceneManager.LoadScene(instance.titleSceneName);
     }
 }
