@@ -11,8 +11,10 @@ public class ButtonControl : MonoBehaviour
     // Custom unity event system for platform activation using button
     public UnityEvent onButtonClick;
     private GameObject interactGui;
+    private AudioSource buttonSound;
 
     void Start(){
+        buttonSound = GetComponent<AudioSource>();
         interactGui = Instantiate(Resources.Load("InteractGui")) as GameObject;
         interactGui.transform.position = gameObject.transform.position + new Vector3(0, 1.25f, 0);
         interactGui.SetActive(false);
@@ -28,6 +30,7 @@ public class ButtonControl : MonoBehaviour
             {
                 // Invokes the function set in inspector
                 onButtonClick.Invoke();
+                buttonSound.Play();
             }
         }
     }

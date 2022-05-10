@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isOnGround = true;
     private float horizontalInput;
     public static bool playerHide = false;
+    private AudioSource jumpSound;
+    private AudioSource stepSound;
 
     [SerializeField]
     private float moveSpeed;
@@ -27,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
         // Gets the rigidbody component of player
         playerRb = GetComponent<Rigidbody2D>();
         playerCc = GetComponent<CapsuleCollider2D>();
+        stepSound = transform.GetChild(1).GetComponent<AudioSource>();
+        jumpSound = transform.GetChild(2).GetComponent<AudioSource>();
         oldMoveSpeed = moveSpeed;
         oldJumpForce = jumpForce;
     }
@@ -41,16 +45,26 @@ public class PlayerMovement : MonoBehaviour
         {
             // Moves player to the right 
             playerRb.velocity = new Vector2(moveSpeed, playerRb.velocity.y);
+            if (!stepSound.isPlaying && isOnGround){
+                stepSound.Play();
+            }
         }
         else if (horizontalInput < 0)
         {
             // Moves player to the left
             playerRb.velocity = new Vector2(-moveSpeed, playerRb.velocity.y);
+            if (!stepSound.isPlaying && isOnGround){
+                stepSound.Play();
+            }
         }
         else
         {
             // Makes player do an immediate stop when neither left or right is being pressed
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+        }
+
+        if (horizontalInput == 0 || !isOnGround){
+            stepSound.Stop();
         }
 
         // Code to make player jump
@@ -59,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
             // Makes it so player can't jump while in the air.
+            jumpSound.Play();
             isOnGround = false;
         }
 

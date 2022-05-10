@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
     private static GameStateManager instance;
+    private static AudioSource deathSound;
 
     [SerializeField]
     private List<string> levels = new List<string>();
@@ -23,6 +24,7 @@ public class GameStateManager : MonoBehaviour
     public static GAMESTATE state;
     private void Awake()
     {
+        deathSound = transform.GetChild(0).GetComponent<AudioSource>();
         if (instance == null)
         {
             instance = this;
@@ -55,6 +57,7 @@ public class GameStateManager : MonoBehaviour
     public static void GameOver()
     {
         state = GAMESTATE.GAMEOVER;
+        deathSound.Play();
         SceneManager.LoadScene(instance.levels[0]);
     }
 
