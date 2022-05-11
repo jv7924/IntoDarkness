@@ -9,7 +9,7 @@ public class ButtonControl : MonoBehaviour
     private bool inRange = false;
 
     // Custom unity event system for platform activation using button
-    public UnityEvent onButtonClick;
+    public UnityEvent OnButtonClick;
     private GameObject interactGui;
     private AudioSource buttonSound;
 
@@ -26,10 +26,11 @@ public class ButtonControl : MonoBehaviour
         // Checks if player character is in range and has pressed F key
         if (Input.GetKeyDown(KeyCode.F) && inRange)
         {
-            if (onButtonClick != null)
+            if (OnButtonClick != null)
             {
                 // Invokes the function set in inspector
-                onButtonClick.Invoke();
+                OnButtonClick.Invoke();
+                Debug.Log("Invoked");
                 buttonSound.Play();
             }
         }

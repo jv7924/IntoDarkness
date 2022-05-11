@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public static bool playerHide = false;
     private AudioSource jumpSound;
     private AudioSource stepSound;
+    [SerializeField]
+    private SpriteRenderer player;
 
     [SerializeField]
     private float moveSpeed;
@@ -43,7 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (horizontalInput > 0)
         {
-            // Moves player to the right 
+            // Moves player to the right
+            player.flipX = false;
             playerRb.velocity = new Vector2(moveSpeed, playerRb.velocity.y);
             if (!stepSound.isPlaying && isOnGround){
                 stepSound.Play();
@@ -52,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         else if (horizontalInput < 0)
         {
             // Moves player to the left
+            player.flipX = true;
             playerRb.velocity = new Vector2(-moveSpeed, playerRb.velocity.y);
             if (!stepSound.isPlaying && isOnGround){
                 stepSound.Play();

@@ -50,7 +50,7 @@ public class GameStateManager : MonoBehaviour
         state = GAMESTATE.PLAYING;
         if (instance.levels.Count > 0)
         {
-            SceneManager.LoadScene(instance.levels[0]);
+            SceneManager.LoadScene(instance.levels[1]);
         }
     }
 
@@ -58,7 +58,8 @@ public class GameStateManager : MonoBehaviour
     {
         state = GAMESTATE.GAMEOVER;
         deathSound.Play();
-        SceneManager.LoadScene(instance.levels[0]);
+        NewGame();
+        //SceneManager.LoadScene(instance.levels[1]);
     }
 
     public static void TogglePause()

@@ -548,7 +548,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 93a95e9acfa12344595b9779bd65c5ab, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.39
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -663,6 +663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - Scene1
+  - Scene2
   titleSceneName: Menu
 --- !u!224 &627877249
 RectTransform:

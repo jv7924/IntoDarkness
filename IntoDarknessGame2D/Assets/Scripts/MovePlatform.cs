@@ -12,13 +12,13 @@ public class MovePlatform : MonoBehaviour
     private float speed;
     private Vector2 startPosition;
     private Vector2 endPosition;
-    private bool buttonClick = false;
+    private bool buttonClick = true;
 
     void Start()
     {
-        startPosition = platformPathStart.transform.position;
-        endPosition = platformPathEnd.transform.position;
-        //StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
+        startPosition = (Vector2)platformPathStart.transform.position;
+        endPosition = (Vector2)platformPathEnd.transform.position;
+        StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
     }
 
     void Update()
@@ -26,12 +26,12 @@ public class MovePlatform : MonoBehaviour
         if ((Vector2)transform.position == endPosition && buttonClick)
         {
             StartCoroutine(Vector2LerpCoroutine(gameObject, startPosition, speed));
-            Debug.Log("Hi");
+            //Debug.Log("Hi");
         }
-        else if ((Vector2)transform.position == startPosition && buttonClick)
+        if ((Vector2)transform.position == startPosition && buttonClick)
         {
-            StartCoroutine( Vector2LerpCoroutine(gameObject, endPosition, speed));
-            Debug.Log("Hey");
+            StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
+            //Debug.Log("Hey");
         }
     }
 
@@ -58,17 +58,22 @@ public class MovePlatform : MonoBehaviour
         collision.gameObject.transform.parent = null;
     }
 
-    public bool ButtonClicked()
+    //Draws lines between gizoms to show path
+    private void OnDrawGizmos()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            buttonClick = true;
-        }
+        Gizmos.DrawLine(platformPathStart.transform.position, platformPathEnd.transform.position);
+    }
+
+    /*public bool ButtonClicked()
+    {
+        buttonClick = true;
+        Debug.Log("clicked");
         return buttonClick;
     }
 
     public void Activate()
     {
         ButtonClicked();
-    }
+        Debug.Log("Activated");
+    }*/
 }
