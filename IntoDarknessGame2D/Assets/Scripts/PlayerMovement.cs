@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
-    private CapsuleCollider2D playerCc;
-    private bool isOnGround = true;
+    private CapsuleCollider2D playerCapCol;
+    //private bool isOnGround = true;
     private float horizontalInput;
     public static bool playerHide = false;
     private AudioSource jumpSound;
     private AudioSource stepSound;
     [SerializeField]
     private SpriteRenderer player;
+    [SerializeField]
+    private LayerMask platformLayerMask;
 
     [SerializeField]
     private float moveSpeed;
@@ -30,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Gets the rigidbody component of player
         playerRb = GetComponent<Rigidbody2D>();
-        playerCc = GetComponent<CapsuleCollider2D>();
+        playerCapCol = transform.GetComponent<CapsuleCollider2D>();
         stepSound = transform.GetChild(1).GetComponent<AudioSource>();
         jumpSound = transform.GetChild(2).GetComponent<AudioSource>();
         oldMoveSpeed = moveSpeed;
@@ -48,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
             // Moves player to the right
             player.flipX = false;
             playerRb.velocity = new Vector2(moveSpeed, playerRb.velocity.y);
-            if (!stepSound.isPlaying && isOnGround){
+            if (!stepSound.isPlaying && IsGrounded()){
                 stepSound.Play();
             }
         }
@@ -57,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
             // Moves player to the left
             player.flipX = true;
             playerRb.velocity = new Vector2(-moveSpeed, playerRb.velocity.y);
-            if (!stepSound.isPlaying && isOnGround){
+            if (!stepSound.isPlaying && IsGrounded()){
                 stepSound.Play();
             }
         }
@@ -67,18 +69,18 @@ public class PlayerMovement : MonoBehaviour
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
         }
 
-        if (horizontalInput == 0 || !isOnGround){
+        if (horizontalInput == 0 || !IsGrounded()){
             stepSound.Stop();
         }
 
         // Code to make player jump
         // Checks if player in on ground before being able to jump again
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
             // Makes it so player can't jump while in the air.
             jumpSound.Play();
-            isOnGround = false;
+            /*isOnGround = false;*/
         }
 
         if (playerRb.velocity.y < 0)
@@ -93,13 +95,35 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private bool IsGrounded()
+    {
+        float extraHeightText = .075f;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(playerCapCol.bounds.center, playerCapCol.bounds.size, 0f, Vector2.down, extraHeightText, platformLayerMask);
+        
+        Color rayColor;
+        if (raycastHit.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        Debug.DrawRay(playerCapCol.bounds.center + new Vector3(playerCapCol.bounds.extents.x, 0), Vector2.down * (playerCapCol.bounds.extents.y + extraHeightText), rayColor);
+        Debug.DrawRay(playerCapCol.bounds.center - new Vector3(playerCapCol.bounds.extents.x, 0), Vector2.down * (playerCapCol.bounds.extents.y + extraHeightText), rayColor);
+        Debug.DrawRay(playerCapCol.bounds.center - new Vector3(playerCapCol.bounds.extents.x, playerCapCol.bounds.extents.y + extraHeightText), Vector2.right * (playerCapCol.bounds.extents.x), rayColor);
+       
+        return raycastHit.collider != null;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Makes sure player is on the ground
+        /*// Makes sure player is on the ground
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
-        }
+        }*/
 
         if (collision.gameObject.CompareTag("Trap"))
         {
@@ -125,17 +149,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void ToggleHide(){
-        if (playerHide == false && isOnGround){
+        if (playerHide == false && IsGrounded()){
             playerHide = true;
             playerRb.velocity = new Vector2(0, 0);
             playerRb.gravityScale = 0;
-            playerCc.isTrigger = true;
+            playerCapCol.isTrigger = true;
             moveSpeed = 0;
             jumpForce = 0;
         }else{
             playerHide = false;
             playerRb.gravityScale = 1;
-            playerCc.isTrigger = false;
+            playerCapCol.isTrigger = false;
             moveSpeed = oldMoveSpeed;
             jumpForce = oldJumpForce;
         }

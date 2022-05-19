@@ -30,7 +30,6 @@ public class ButtonControl : MonoBehaviour
             {
                 // Invokes the function set in inspector
                 OnButtonClick.Invoke();
-                Debug.Log("Invoked");
                 buttonSound.Play();
             }
         }

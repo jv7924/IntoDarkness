@@ -12,13 +12,16 @@ public class MovePlatform : MonoBehaviour
     private float speed;
     private Vector2 startPosition;
     private Vector2 endPosition;
-    private bool buttonClick = true;
+    private bool buttonClick = false;
 
     void Start()
     {
         startPosition = (Vector2)platformPathStart.transform.position;
         endPosition = (Vector2)platformPathEnd.transform.position;
+
+        //Temporary fix
         StartCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
+        StopCoroutine(Vector2LerpCoroutine(gameObject, endPosition, speed));
     }
 
     void Update()
@@ -64,7 +67,7 @@ public class MovePlatform : MonoBehaviour
         Gizmos.DrawLine(platformPathStart.transform.position, platformPathEnd.transform.position);
     }
 
-    /*public bool ButtonClicked()
+    public bool ButtonClicked()
     {
         buttonClick = true;
         Debug.Log("clicked");
@@ -75,5 +78,5 @@ public class MovePlatform : MonoBehaviour
     {
         ButtonClicked();
         Debug.Log("Activated");
-    }*/
+    }
 }
