@@ -17,6 +17,11 @@ public class PlayerMovement : MonoBehaviour
     private LayerMask platformLayerMask;
 
     [SerializeField]
+    private PhysicsMaterial2D noFriction;
+    [SerializeField]
+    private PhysicsMaterial2D fullFriction;
+
+    [SerializeField]
     private float moveSpeed;
     private float oldMoveSpeed;
     [SerializeField]
@@ -50,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
             // Moves player to the right
             player.flipX = false;
             playerRb.velocity = new Vector2(moveSpeed, playerRb.velocity.y);
+            playerRb.sharedMaterial = noFriction;
+
             if (!stepSound.isPlaying && IsGrounded()){
                 stepSound.Play();
             }
@@ -59,6 +66,8 @@ public class PlayerMovement : MonoBehaviour
             // Moves player to the left
             player.flipX = true;
             playerRb.velocity = new Vector2(-moveSpeed, playerRb.velocity.y);
+            playerRb.sharedMaterial = noFriction;
+
             if (!stepSound.isPlaying && IsGrounded()){
                 stepSound.Play();
             }
@@ -67,6 +76,9 @@ public class PlayerMovement : MonoBehaviour
         {
             // Makes player do an immediate stop when neither left or right is being pressed
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+
+            // Prevents player from sliding down slopes when not moving
+            playerRb.sharedMaterial = fullFriction;
         }
 
         if (horizontalInput == 0 || !IsGrounded()){
@@ -100,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         float extraHeightText = .075f;
         RaycastHit2D raycastHit = Physics2D.BoxCast(playerCapCol.bounds.center, playerCapCol.bounds.size, 0f, Vector2.down, extraHeightText, platformLayerMask);
         
+        // Draws the rays
         Color rayColor;
         if (raycastHit.collider != null)
         {
@@ -112,8 +125,9 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.DrawRay(playerCapCol.bounds.center + new Vector3(playerCapCol.bounds.extents.x, 0), Vector2.down * (playerCapCol.bounds.extents.y + extraHeightText), rayColor);
         Debug.DrawRay(playerCapCol.bounds.center - new Vector3(playerCapCol.bounds.extents.x, 0), Vector2.down * (playerCapCol.bounds.extents.y + extraHeightText), rayColor);
-        Debug.DrawRay(playerCapCol.bounds.center - new Vector3(playerCapCol.bounds.extents.x, playerCapCol.bounds.extents.y + extraHeightText), Vector2.right * (playerCapCol.bounds.extents.x), rayColor);
-       
+        Debug.DrawRay(playerCapCol.bounds.center - new Vector3(playerCapCol.bounds.extents.x, playerCapCol.bounds.extents.y + extraHeightText), Vector2.right * 2 * (playerCapCol.bounds.extents.x), rayColor);
+        //
+
         return raycastHit.collider != null;
     }
 
@@ -149,14 +163,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void ToggleHide(){
-        if (playerHide == false && IsGrounded()){
+        if (playerHide == false && IsGrounded())
+        {
             playerHide = true;
             playerRb.velocity = new Vector2(0, 0);
             playerRb.gravityScale = 0;
             playerCapCol.isTrigger = true;
             moveSpeed = 0;
             jumpForce = 0;
-        }else{
+        }else
+        {
             playerHide = false;
             playerRb.gravityScale = 1;
             playerCapCol.isTrigger = false;
