@@ -5,16 +5,24 @@ using UnityEngine;
 public class MonsterScript : MonoBehaviour
 {
     private Rigidbody2D monsterRb;
-    private int direction = 1;
+    private int monDirection = 1;
     private bool seePlayer;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
     private float seePlayerMoveSpeed;
     [SerializeField]
+    private float range;
+    [SerializeField]
     private Transform playerPos;
     [SerializeField]
-    private float range;
+    private LayerMask playerSeeLayer;
+    [SerializeField]
+    private Transform platformCheckPos;
+    [SerializeField]
+    private LayerMask platformLayer;
+    [SerializeField]
+    private Collider2D bodyCollider;
     
     // Start is called before the first frame update
     void Start()
@@ -25,20 +33,23 @@ public class MonsterScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        monsterRb.velocity = new Vector2(moveSpeed * direction, monsterRb.velocity.y);
+        monsterRb.velocity = new Vector2(moveSpeed * monDirection, monsterRb.velocity.y);
         Vector2 heading = playerPos.position - transform.position;
         Vector2 raycastDirection = heading / heading.magnitude;
-        if (Mathf.Round(raycastDirection.x) == direction) {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, raycastDirection, heading.magnitude);
-            if ((!PlayerMovement.playerHide || seePlayer) && hit){
-                Debug.DrawRay(transform.position, raycastDirection * heading.magnitude, Color.red);
-                monsterRb.velocity = new Vector2(seePlayerMoveSpeed * direction, monsterRb.velocity.y);
+        if (Mathf.Round(raycastDirection.x) == monDirection) {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, raycastDirection, heading.magnitude, playerSeeLayer);
+            if (hit && heading.magnitude <= range && hit.transform.name == "Player" && (!PlayerMovement.playerHide || seePlayer)){
+                monsterRb.velocity = new Vector2(seePlayerMoveSpeed * monDirection, monsterRb.velocity.y);
                 seePlayer = true;
             }else{
                 seePlayer = false;
             }
         }else{
             seePlayer = false;
+        }
+        if (!Physics2D.OverlapCircle(platformCheckPos.position, 0.1f, platformLayer) || bodyCollider.IsTouchingLayers(platformLayer)){
+            Flip();
+            monsterRb.velocity = new Vector2(0, monsterRb.velocity.y);
         }
     }
 
@@ -49,8 +60,6 @@ public class MonsterScript : MonoBehaviour
         {
             GameStateManager.GameOver();
             Debug.Log("GAME OVER");
-        }else if (collision.gameObject.CompareTag("Ground")){
-            Flip();
         }
     }
 
@@ -65,7 +74,9 @@ public class MonsterScript : MonoBehaviour
     }
 
     void Flip(){
-        direction *= -1;
-        transform.localScale = new Vector2(transform.localScale.x * direction, transform.localScale.y);
+        if (!seePlayer){
+            monDirection = -monDirection;
+            transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+        }
     }
 }

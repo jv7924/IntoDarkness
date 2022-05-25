@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     //private bool isOnGround = true;
     private float horizontalInput;
     public static bool playerHide = false;
+    private SpriteRenderer spriteR;
     private AudioSource jumpSound;
     private AudioSource stepSound;
     [SerializeField]
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         playerCapCol = transform.GetComponent<CapsuleCollider2D>();
         stepSound = transform.GetChild(1).GetComponent<AudioSource>();
         jumpSound = transform.GetChild(2).GetComponent<AudioSource>();
+        spriteR = transform.GetComponent<SpriteRenderer>();
         oldMoveSpeed = moveSpeed;
         oldJumpForce = jumpForce;
     }
@@ -171,6 +173,8 @@ public class PlayerMovement : MonoBehaviour
             playerCapCol.isTrigger = true;
             moveSpeed = 0;
             jumpForce = 0;
+            spriteR.sortingOrder = 1;
+            spriteR.color = new Color(.2f, .2f, .2f);
         }else
         {
             playerHide = false;
@@ -178,6 +182,8 @@ public class PlayerMovement : MonoBehaviour
             playerCapCol.isTrigger = false;
             moveSpeed = oldMoveSpeed;
             jumpForce = oldJumpForce;
+            spriteR.sortingOrder = 3;
+            spriteR.color = new Color(1, 1, 1);
         }
     }
 }
