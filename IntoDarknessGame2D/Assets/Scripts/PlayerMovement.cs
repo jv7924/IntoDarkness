@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
     private CapsuleCollider2D playerCapCol;
-    //private bool isOnGround = true;
     private float horizontalInput;
     public static bool playerHide = false;
     private SpriteRenderer spriteR;
@@ -16,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer player;
     [SerializeField]
     private LayerMask platformLayerMask;
+
+    public Animator animator;
 
     [SerializeField]
     private PhysicsMaterial2D noFriction;
@@ -57,9 +58,11 @@ public class PlayerMovement : MonoBehaviour
             // Moves player to the right
             player.flipX = false;
             playerRb.velocity = new Vector2(moveSpeed, playerRb.velocity.y);
+            animator.SetFloat("Speed", horizontalInput);
             playerRb.sharedMaterial = noFriction;
 
-            if (!stepSound.isPlaying && IsGrounded()){
+            if (!stepSound.isPlaying && IsGrounded())
+            {
                 stepSound.Play();
             }
         }
@@ -68,9 +71,11 @@ public class PlayerMovement : MonoBehaviour
             // Moves player to the left
             player.flipX = true;
             playerRb.velocity = new Vector2(-moveSpeed, playerRb.velocity.y);
+            animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
             playerRb.sharedMaterial = noFriction;
 
-            if (!stepSound.isPlaying && IsGrounded()){
+            if (!stepSound.isPlaying && IsGrounded())
+            {
                 stepSound.Play();
             }
         }
@@ -78,12 +83,14 @@ public class PlayerMovement : MonoBehaviour
         {
             // Makes player do an immediate stop when neither left or right is being pressed
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+            animator.SetFloat("Speed", 0);
 
             // Prevents player from sliding down slopes when not moving
             playerRb.sharedMaterial = fullFriction;
         }
 
-        if (horizontalInput == 0 || !IsGrounded()){
+        if (horizontalInput == 0 || !IsGrounded())
+        {
             stepSound.Stop();
         }
 
@@ -91,10 +98,16 @@ public class PlayerMovement : MonoBehaviour
         // Checks if player in on ground before being able to jump again
         if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
-            playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
             // Makes it so player can't jump while in the air.
+            playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
+            animator.SetBool("IsJumping", true);
+
             jumpSound.Play();
             /*isOnGround = false;*/
+        }
+        else if (IsGrounded() && !Input.GetKey(KeyCode.Space))
+        {
+            animator.SetBool("IsJumping", false);
         }
 
         if (playerRb.velocity.y < 0)
@@ -135,12 +148,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        /*// Makes sure player is on the ground
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isOnGround = true;
-        }*/
-
         if (collision.gameObject.CompareTag("Trap"))
         {
             GameStateManager.GameOver();
