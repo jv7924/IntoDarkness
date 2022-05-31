@@ -87,6 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diminishType: 0
   diminishValue: 0.5
+  outerRadiusGameOver: 1
 --- !u!1 &8585972058396719975
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,11 +424,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 43ad93fa3aa4b8c4fac0028dc687f2d7, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 772d9c1c486a4994c875193e668d4af9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

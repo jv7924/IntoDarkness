@@ -5,6 +5,8 @@ using UnityEngine;
 public class MonsterScript : MonoBehaviour
 {
     private Rigidbody2D monsterRb;
+    private AudioSource monsterSound;
+    private bool monsterSoundBool = false;
     private int monDirection = 1;
     private bool seePlayer;
     [SerializeField]
@@ -28,6 +30,7 @@ public class MonsterScript : MonoBehaviour
     void Start()
     {
         monsterRb = GetComponent<Rigidbody2D>();
+        monsterSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -41,11 +44,17 @@ public class MonsterScript : MonoBehaviour
             if (hit && heading.magnitude <= range && hit.transform.name == "Player" && (!PlayerMovement.playerHide || seePlayer)){
                 monsterRb.velocity = new Vector2(seePlayerMoveSpeed * monDirection, monsterRb.velocity.y);
                 seePlayer = true;
+                if (!monsterSoundBool && !monsterSound.isPlaying){
+                    monsterSound.Play();
+                    monsterSoundBool = true;
+                }
             }else{
                 seePlayer = false;
+                monsterSoundBool = false;
             }
         }else{
             seePlayer = false;
+            monsterSoundBool = false;
         }
         if (!Physics2D.OverlapCircle(platformCheckPos.position, 0.1f, platformLayer) || bodyCollider.IsTouchingLayers(platformLayer)){
             Flip();

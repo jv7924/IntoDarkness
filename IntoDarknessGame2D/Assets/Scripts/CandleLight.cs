@@ -14,6 +14,8 @@ public class CandleLight : MonoBehaviour
     public diminishTypeEnum diminishType;
     [SerializeField]
     public float diminishValue;
+    [SerializeField]
+    public float outerRadiusGameOver;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +28,7 @@ public class CandleLight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerRb.velocity.x != 0 || playerRb.velocity.y != 0){
+        if (playerRb.velocity.x != 0){
             switch(diminishType){
                 case diminishTypeEnum.Constant:
                     light2d.pointLightInnerRadius -= diminishValue / 1000;
@@ -37,6 +39,10 @@ public class CandleLight : MonoBehaviour
                     light2d.pointLightOuterRadius *= diminishValue;
                     break;
             }
+        }
+        if (light2d.pointLightOuterRadius <= outerRadiusGameOver){
+            GameStateManager.GameOver();
+            Debug.Log("GAME OVER");
         }
     }
 }
