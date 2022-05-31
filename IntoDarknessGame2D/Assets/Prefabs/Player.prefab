@@ -47,7 +47,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.3
-  m_Color: {r: 1, g: 0.8897501, b: 0.7396226, a: 1}
+  m_Color: {r: 0.8627451, g: 0.94509804, b: 0.4862745, a: 1}
   m_Intensity: 0.8
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_UseNormalMap: 0
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0
+  m_ShadowIntensity: 0.612
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 8585972058651793226}
   - component: {fileID: 8585972058651792565}
   - component: {fileID: 8585972058651792564}
+  - component: {fileID: 5825036950927202085}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -291,12 +292,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 1f66968caac53e54198b74f3e97201ce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c4dcac17254729049be684cf6ff4393d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -336,8 +337,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.028291225, y: -0.29350662}
-  m_Size: {x: 0.4489107, y: 1.2945709}
+  m_Offset: {x: -0.028291225, y: -0.09416771}
+  m_Size: {x: 0.4489107, y: 1.4407616}
   m_Direction: 0
 --- !u!114 &8585972058651792564
 MonoBehaviour:
@@ -355,12 +356,32 @@ MonoBehaviour:
   platformLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  animator: {fileID: 5825036950927202085}
   noFriction: {fileID: 6200000, guid: 9e9c043e11302fc40bbd0e37ada6535e, type: 2}
   fullFriction: {fileID: 6200000, guid: 52e66064a7250a146916fad0962e5dff, type: 2}
   moveSpeed: 4.5
   jumpForce: 6.5
   fallMultiplier: 3
   lowJumpMultiplier: 4
+--- !u!95 &5825036950927202085
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8585972058651792567}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d4bf310ae36cf9d44a177ae94adcc62c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8585972059053656648
 GameObject:
   m_ObjectHideFlags: 0
