@@ -160,8 +160,8 @@ public class PlayerMovement : MonoBehaviour
         // Checks if player has fallen to death using collider as trigger
         if (collision.gameObject.CompareTag("Bottomless Pit"))
         {
-            GameStateManager.GameOver();
             Debug.Log("Game Over");
+            GameStateManager.GameOver();
         }
 
         if (collision.gameObject.CompareTag("Door"))

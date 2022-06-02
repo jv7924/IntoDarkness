@@ -36,15 +36,11 @@ public class PlatformMover : MonoBehaviour
         
         if ((Vector2)transform.position == endPos && buttonClicked)
         {
-            Debug.Log("In if");
             StartCoroutine(LerpPosition(gameObject, startPos, platSpeed));
-            Debug.Log("Executed");
         }
         else if ((Vector2)transform.position == startPos && buttonClicked)
         {
-            Debug.Log("In else if");
             StartCoroutine(LerpPosition(gameObject, endPos, platSpeed));
-            Debug.Log("Executed1");
         }
     }
 
@@ -55,7 +51,6 @@ public class PlatformMover : MonoBehaviour
 
         while ((Vector2)platform.transform.position != targetPosition)
         {
-            Debug.Log("In while");
             platform.transform.position = Vector2.Lerp(startPosition, targetPosition, time / speed);
             time += Time.deltaTime;
             yield return null;

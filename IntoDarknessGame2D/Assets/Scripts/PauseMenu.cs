@@ -8,8 +8,8 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        pauseMenuUI = gameObject.transform.GetChild(0).gameObject;
-        DontDestroyOnLoad(gameObject);
+        //pauseMenuUI = gameObject.transform.GetChild(0).gameObject;
+        //DontDestroyOnLoad(gameObject);
     }
 
     void Update()
@@ -36,14 +36,14 @@ public class PauseMenu : MonoBehaviour
 
     public void RestartGame()
     {
-        pauseMenuUI.SetActive(false);
+        ResumeGame();
         Time.timeScale = 1;
         GameStateManager.NewGame();
     }
 
     public void ExitToMain()
     {
-        pauseMenuUI.SetActive(false);
+        ResumeGame();
         Time.timeScale = 1;
         GameStateManager.MainMenu();
     }
