@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private bool canMove = true;
     private Rigidbody2D playerRb;
     private CapsuleCollider2D playerCapCol;
     private float horizontalInput;
@@ -53,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         // Gets the horizontal input of the keyboard 1 if right -1 if left
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if (horizontalInput > 0)
+        if (horizontalInput > 0 && canMove)
         {
             // Moves player to the right
             player.flipX = false;
@@ -66,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
                 stepSound.Play();
             }
         }
-        else if (horizontalInput < 0)
+        else if (horizontalInput < 0 && canMove)
         {
             // Moves player to the left
             player.flipX = true;
@@ -88,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
             // Prevents player from sliding down slopes when not moving
             playerRb.sharedMaterial = fullFriction;
         }
-
+        //Step sound check
         if (horizontalInput == 0 || !IsGrounded())
         {
             stepSound.Stop();
@@ -96,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Code to make player jump
         // Checks if player in on ground before being able to jump again
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space) && canMove)
         {
             // Makes it so player can't jump while in the air.
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
@@ -182,6 +183,7 @@ public class PlayerMovement : MonoBehaviour
             jumpForce = 0;
             spriteR.sortingOrder = 1;
             spriteR.color = new Color(.2f, .2f, .2f);
+            canMove = false;
         }else
         {
             playerHide = false;
@@ -191,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
             jumpForce = oldJumpForce;
             spriteR.sortingOrder = 3;
             spriteR.color = new Color(1, 1, 1);
+            canMove = true;
         }
     }
 }
