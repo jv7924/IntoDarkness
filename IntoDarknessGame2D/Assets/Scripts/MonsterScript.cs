@@ -64,12 +64,12 @@ public class MonsterScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Makes sure player is on the ground
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameStateManager.GameOver();
-            Debug.Log("GAME OVER");
-        }
+          //Makes sure player is on the ground
+          if (collision.gameObject.CompareTag("Player"))
+          {
+              GameStateManager.GameOver();
+              Debug.Log("GAME OVER");
+          }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

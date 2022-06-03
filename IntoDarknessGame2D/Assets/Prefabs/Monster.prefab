@@ -152,8 +152,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: -0.014558256, y: -0.078335166}
+  m_Size: {x: 0.7691165, y: 1.5794635}
   m_Direction: 0
 --- !u!114 &2726887557532330739
 MonoBehaviour:
@@ -167,9 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d19576634a1f94098ca6f4b2c6705a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  seePlayerMoveSpeed: 7
-  range: 8
+  moveSpeed: 3
+  seePlayerMoveSpeed: 6
+  range: 3
   playerPos: {fileID: 0}
   playerSeeLayer:
     serializedVersion: 2

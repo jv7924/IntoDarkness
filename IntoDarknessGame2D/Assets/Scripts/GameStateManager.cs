@@ -10,6 +10,10 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField]
     private List<string> levels = new List<string>();
+
+    private int levelNum = 1;
+    public int nextLevel = 0;
+
     [SerializeField]
     public string titleSceneName;
 
@@ -50,8 +54,20 @@ public class GameStateManager : MonoBehaviour
         state = GAMESTATE.PLAYING;
         if (instance.levels.Count > 0)
         {
-            SceneManager.LoadScene(instance.levels[1]);
+            if (instance.nextLevel + 1 > instance.levels.Count - 1)
+            {
+                MainMenu();
+            }
+            else
+            {
+                SceneManager.LoadScene(instance.levels[instance.levelNum + instance.nextLevel]);
+            }
         }
+    }
+
+    public static void NextLevel()
+    {
+        instance.nextLevel++;
     }
 
     public static void GameOver()
@@ -79,6 +95,7 @@ public class GameStateManager : MonoBehaviour
     public static void MainMenu()
     {
         state = GAMESTATE.MENU;
+        instance.nextLevel = 0;
         SceneManager.LoadScene(instance.titleSceneName);
     }
 }

@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diminishType: 0
-  diminishValue: 0.5
+  diminishValue: 0.4
   outerRadiusGameOver: 1
 --- !u!1 &8585972058396719975
 GameObject:

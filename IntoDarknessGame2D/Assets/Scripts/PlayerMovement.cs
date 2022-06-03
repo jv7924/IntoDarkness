@@ -167,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Door"))
         {
+            GameStateManager.NextLevel();
             GameStateManager.NewGame();
             Debug.Log("You win!");
         }
@@ -176,12 +177,12 @@ public class PlayerMovement : MonoBehaviour
         if (playerHide == false && IsGrounded())
         {
             playerHide = true;
+            spriteR.sortingOrder = 1;
             playerRb.velocity = new Vector2(0, 0);
             playerRb.gravityScale = 0;
             playerCapCol.isTrigger = true;
             moveSpeed = 0;
             jumpForce = 0;
-            spriteR.sortingOrder = 1;
             spriteR.color = new Color(.2f, .2f, .2f);
             canMove = false;
         }else
