@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   seePlayerMoveSpeed: 6
-  range: 3
+  range: 5
   playerPos: {fileID: 0}
   playerSeeLayer:
     serializedVersion: 2

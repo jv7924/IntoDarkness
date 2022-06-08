@@ -41,7 +41,7 @@ public class MonsterScript : MonoBehaviour
         Vector2 raycastDirection = heading / heading.magnitude;
         if (Mathf.Round(raycastDirection.x) == monDirection) {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, raycastDirection, heading.magnitude, playerSeeLayer);
-            if (hit && heading.magnitude <= range && hit.transform.name == "Player" && (!PlayerMovement.playerHide || seePlayer)){
+            if (hit && heading.magnitude <= range && hit.transform.name == "Player" && !PlayerMovement.playerHide){
                 monsterRb.velocity = new Vector2(seePlayerMoveSpeed * monDirection, monsterRb.velocity.y);
                 seePlayer = true;
                 if (!monsterSoundBool && !monsterSound.isPlaying){
